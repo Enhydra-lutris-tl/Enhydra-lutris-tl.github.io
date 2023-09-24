@@ -5616,6 +5616,43 @@ blockquote.pullquote.right {
 .read-mode #article-container .note .note-icon {
   color: var(--font-color);
 }
+
+/* 代码框-注释文字颜色修改为绿色 */
+.code .line .comment {
+    color: green;
+}
+
+/* 侧边栏大纲，所在位置修改为边框，去除背景色 */
+#aside-content #card-toc .toc-content .toc-link.active {
+    background: none;
+    border: solid 1px white;
+    color: #fff;
+}
+
+/* 相关推荐方框大小 */
+.relatedPosts > .relatedPosts-list > div {
+
+    width: calc(33.333% - 12px);
+    height: 100px;
+    margin: 6px;
+}
+
+/* 上一篇推荐 */
+
+#pagination .prev-post a, #pagination .next-post a {
+    height: 100px;
+}
+
+#pagination .pagination-info {
+    display: flex;
+    align-items: center;
+}
+
+#pagination .prev-post .label, #pagination .next-post .label {
+    font-size: 100%;
+    font-weight: 600;
+    margin-right: 20px;
+}
 .search-dialog {
   position: fixed;
   top: 10%;
