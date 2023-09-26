@@ -1,0 +1,507 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>用户行为分析 | Otter's Blog</title><meta name="author" content="Otter"><meta name="copyright" content="Otter"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="本次可视化分析的目的是针对脱敏过的用户行为数,使用Python、Numpy、Pandas和Matplotlib工具完成可视化分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用户行为分析">
+<meta property="og:url" content="http://example.com/2023/09/26/%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Otter&#39;s Blog">
+<meta property="og:description" content="本次可视化分析的目的是针对脱敏过的用户行为数,使用Python、Numpy、Pandas和Matplotlib工具完成可视化分析">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90BJ.png">
+<meta property="article:published_time" content="2023-09-26T05:52:32.000Z">
+<meta property="article:modified_time" content="2023-09-26T07:52:32.000Z">
+<meta property="article:author" content="Otter">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="数据分析">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90BJ.png"><link rel="shortcut icon" href="/img/Otter.png"><link rel="canonical" href="http://example.com/2023/09/26/%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA%E5%88%86%E6%9E%90/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":false,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Otter","link":"链接: ","source":"来源: Otter's Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '用户行为分析',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-09-26 15:52:32'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/time.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://s1.ax1x.com/2023/09/08/pP6mNP1.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Blog</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url('/img/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90BJ.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Otter's Blog"><span class="site-name">Otter's Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Blog</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">用户行为分析</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-09-26T05:52:32.000Z" title="发表于 2023-09-26 13:52:32">2023-09-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-09-26T07:52:32.000Z" title="更新于 2023-09-26 15:52:32">2023-09-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/">数据分析</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="用户行为分析"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>2014年是阿里巴巴集团移动电商业务快速发展的一年，例如2014双11大促中移动端成交占比达到42.6%，超过240亿元。相比PC时代，移动端网络的访问是随时随地的，具有更丰富的场景数据，比如用户的位置信息、用户访问的时间规律等。 “阿里移动推荐算法挑战赛”以阿里巴巴移动电商平台的真实用户-商品行为数据为基础，同时提供移动时代特有的位置信息，目标是让研究人员能够挖掘数据背后丰富的内涵，为移动用户在合适的时间、合适的地点精准推荐合适的内容。 </p>
+<p>本次可视化分析的目的是针对脱敏过的用户行为数据<font color=yellow><strong>（包括浏览、收藏、加购和购买4类数据）</strong></font>进行分析，使用Python、Numpy、Pandas和Matplotlib工具完成可视化分析，帮助选手更好的理解数据，并作出商业洞察。 </p>
+<p>本次分析数据提供了1万用户量级的完整行为数据：user_action.csv，为了简化问题相比原数据集，我们去掉了user_geohash这个大部分情况为空的字段。</p>
+<h3 id="字段说明"><a href="#字段说明" class="headerlink" title="字段说明"></a>字段说明</h3><table>
+    <tr>
+        <td>user_id</td>
+        <td>用户标识</td>
+        <td>抽样&字段脱敏</td>
+    </tr>
+    <tr>
+        <td>item_id</td>
+        <td>商品标识</td>
+        <td>字段脱敏</td>
+    </tr>
+    <tr>
+        <td>behavior_type</td>
+        <td colspan=2>用户对商品的行为类型 包括浏览、收藏、加购物车、购买，对应取值分别是1、2、3、4。</td>
+    </tr>  
+    <tr>
+        <td>item_category</td>
+        <td>商品分类标识</td>
+        <td>字段脱敏</td>
+    </tr>    
+    <tr>
+        <td>time</td>
+        <td>行为时间</td>
+        <td>精确到小时级别</td>
+    </tr>         
+<table>
+
+<h2 id="数据来源"><a href="#数据来源" class="headerlink" title="数据来源"></a>数据来源</h2><p><a target="_blank" rel="noopener" href="https://tianchi.aliyun.com/dataset/148605">阿里巴巴天池</a></p>
+<h2 id="数据读取并清洗"><a href="#数据读取并清洗" class="headerlink" title="数据读取并清洗"></a>数据读取并清洗</h2><h3 id="导入相关库"><a href="#导入相关库" class="headerlink" title="导入相关库"></a>导入相关库</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pyecharts.<span class="built_in">globals</span> <span class="keyword">import</span> CurrentConfig, NotebookType</span><br><span class="line">CurrentConfig.NOTEBOOK_TYPE = NotebookType.JUPYTER_LAB</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> pyecharts.charts <span class="keyword">import</span> Bar,Funnel,Pie,Line</span><br><span class="line"><span class="keyword">from</span> pyecharts <span class="keyword">import</span> options <span class="keyword">as</span> opts</span><br><span class="line"><span class="keyword">from</span> pyecharts.<span class="built_in">globals</span> <span class="keyword">import</span> ThemeType </span><br><span class="line">plt.rcParams[<span class="string">&#x27;font.sans-serif&#x27;</span>] = <span class="string">&#x27;SimHei&#x27;</span></span><br><span class="line">%matplotlib inline</span><br></pre></td></tr></table></figure>
+
+<h3 id="读取数据"><a href="#读取数据" class="headerlink" title="读取数据"></a>读取数据</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Ebay_data = pd.read_csv(<span class="string">&#x27;./DataFrom/user_action.csv&#x27;</span>,encoding=<span class="string">&#x27;utf-8&#x27;</span>,encoding_errors=<span class="string">&#x27;ignore&#x27;</span>)</span><br><span class="line">Ebay_data.head()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>user_id</th>
+      <th>item_id</th>
+      <th>behavior_type</th>
+      <th>item_category</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>98047837</td>
+      <td>232431562</td>
+      <td>1</td>
+      <td>4245</td>
+      <td>2014-12-06 02</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>97726136</td>
+      <td>383583590</td>
+      <td>1</td>
+      <td>5894</td>
+      <td>2014-12-09 20</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>98607707</td>
+      <td>64749712</td>
+      <td>1</td>
+      <td>2883</td>
+      <td>2014-12-18 11</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>98662432</td>
+      <td>320593836</td>
+      <td>1</td>
+      <td>6562</td>
+      <td>2014-12-06 10</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>98145908</td>
+      <td>290208520</td>
+      <td>1</td>
+      <td>13926</td>
+      <td>2014-12-16 21</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<h3 id="清洗数据"><a href="#清洗数据" class="headerlink" title="清洗数据"></a>清洗数据</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">b = Ebay_data.isna()</span><br><span class="line">b[(b[<span class="string">&#x27;user_id&#x27;</span>]== <span class="literal">True</span>)|(b[<span class="string">&#x27;item_id&#x27;</span>]== <span class="literal">True</span>)|(b[<span class="string">&#x27;behavior_type&#x27;</span>]== <span class="literal">True</span>)|(b[<span class="string">&#x27;item_category&#x27;</span>]== <span class="literal">True</span>)|(b[<span class="string">&#x27;time&#x27;</span>]== <span class="literal">True</span>)] <span class="comment"># 无输出结果 表明没有空值</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># time字段时间属性预览</span></span><br><span class="line">Ebay_data[<span class="string">&#x27;time&#x27;</span>] = pd.to_datetime(Ebay_data[<span class="string">&#x27;time&#x27;</span>])</span><br><span class="line">Ebay_data[<span class="string">&#x27;date&#x27;</span>] = Ebay_data[<span class="string">&#x27;time&#x27;</span>].dt.date</span><br><span class="line">Ebay_data[<span class="string">&#x27;month&#x27;</span>] = Ebay_data[<span class="string">&#x27;time&#x27;</span>].dt.month</span><br><span class="line">Ebay_data[<span class="string">&#x27;day&#x27;</span>] = Ebay_data[<span class="string">&#x27;time&#x27;</span>].dt.day</span><br><span class="line">Ebay_data[<span class="string">&#x27;hour&#x27;</span>] = Ebay_data[<span class="string">&#x27;time&#x27;</span>].dt.hour</span><br><span class="line">Ebay_data[<span class="string">&#x27;time&#x27;</span>].describe() <span class="comment"># 时间段无异常</span></span><br><span class="line">Ebay_data.head()</span><br></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>user_id</th>
+      <th>item_id</th>
+      <th>behavior_type</th>
+      <th>item_category</th>
+      <th>time</th>
+      <th>date</th>
+      <th>month</th>
+      <th>day</th>
+      <th>hour</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>98047837</td>
+      <td>232431562</td>
+      <td>1</td>
+      <td>4245</td>
+      <td>2014-12-06 02:00:00</td>
+      <td>2014-12-06</td>
+      <td>12</td>
+      <td>6</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>97726136</td>
+      <td>383583590</td>
+      <td>1</td>
+      <td>5894</td>
+      <td>2014-12-09 20:00:00</td>
+      <td>2014-12-09</td>
+      <td>12</td>
+      <td>9</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>98607707</td>
+      <td>64749712</td>
+      <td>1</td>
+      <td>2883</td>
+      <td>2014-12-18 11:00:00</td>
+      <td>2014-12-18</td>
+      <td>12</td>
+      <td>18</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>98662432</td>
+      <td>320593836</td>
+      <td>1</td>
+      <td>6562</td>
+      <td>2014-12-06 10:00:00</td>
+      <td>2014-12-06</td>
+      <td>12</td>
+      <td>6</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>98145908</td>
+      <td>290208520</td>
+      <td>1</td>
+      <td>13926</td>
+      <td>2014-12-16 21:00:00</td>
+      <td>2014-12-16</td>
+      <td>12</td>
+      <td>16</td>
+      <td>21</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<h3 id="用户行为分析"><a href="#用户行为分析" class="headerlink" title="用户行为分析"></a>用户行为分析</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">count_data = Ebay_data[<span class="string">&#x27;user_id&#x27;</span>].groupby(Ebay_data[<span class="string">&#x27;behavior_type&#x27;</span>]).count().reset_index()</span><br><span class="line">count_data.rename(columns=&#123;</span><br><span class="line">    <span class="string">&#x27;behavior_type&#x27;</span>:<span class="string">&#x27;行为&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;user_id&#x27;</span>:<span class="string">&#x27;数量&#x27;</span></span><br><span class="line">&#125;,inplace=<span class="literal">True</span>)</span><br><span class="line">count_data[<span class="string">&#x27;行为&#x27;</span>] = count_data[<span class="string">&#x27;行为&#x27;</span>].astype(<span class="string">&#x27;int&#x27;</span>)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">setName</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">if</span> x == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;浏览&#x27;</span></span><br><span class="line">    <span class="keyword">elif</span> x == <span class="number">2</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;收藏&#x27;</span></span><br><span class="line">    <span class="keyword">elif</span> x == <span class="number">3</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;加购&#x27;</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;购买&#x27;</span></span><br><span class="line">count_data[<span class="string">&#x27;行为&#x27;</span>] = count_data[<span class="string">&#x27;行为&#x27;</span>].apply(setName).astype(<span class="string">&#x27;str&#x27;</span>)</span><br><span class="line">count_data</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>行为</th>
+      <th>数量</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>浏览</td>
+      <td>11550581</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>收藏</td>
+      <td>242556</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>加购</td>
+      <td>343564</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>购买</td>
+      <td>120205</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;购买率占比&#x27;</span>,<span class="built_in">round</span>(count_data[count_data[<span class="string">&#x27;行为&#x27;</span>] == <span class="string">&#x27;购买&#x27;</span>][<span class="string">&#x27;数量&#x27;</span>].values[<span class="number">0</span>]/count_data[<span class="string">&#x27;数量&#x27;</span>].<span class="built_in">sum</span>()*<span class="number">100</span>,<span class="number">2</span>),<span class="string">&#x27;%&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<pre><code>购买率占比 0.98 %
+</code></pre>
+<p><font color=#FFA500>可以得知最终购买率仅为0.98%，测试购物体验，用户从整个浏览到下单过程，是什么原因导致放弃下单</font></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 绘图</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">x = count_data[<span class="string">&#x27;行为&#x27;</span>].values.tolist()</span><br><span class="line">y = count_data[<span class="string">&#x27;数量&#x27;</span>].values.tolist()</span><br><span class="line">c = (</span><br><span class="line">    Funnel(init_opts=opts.InitOpts(</span><br><span class="line">    bg_color=<span class="string">&#x27;white&#x27;</span>,</span><br><span class="line">    theme=ThemeType.LIGHT))</span><br><span class="line">    .add(<span class="string">&quot;商品&quot;</span>, [<span class="built_in">list</span>(z) <span class="keyword">for</span> z <span class="keyword">in</span> <span class="built_in">zip</span>(x, y)])</span><br><span class="line">    .set_global_opts(title_opts=opts.TitleOpts(title=<span class="string">&quot;用户行为漏斗图&quot;</span>),toolbox_opts=opts.ToolboxOpts(<span class="literal">True</span>))</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">c.load_javascript()</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="用户行为漏斗图"><a href="#用户行为漏斗图" class="headerlink" title="用户行为漏斗图"></a>用户行为漏斗图</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">c.render_notebook()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://z1.ax1x.com/2023/09/26/pPHtsv4.png" alt="pPHtsv4.png"></p>
+<h3 id="每日访问量分析"><a href="#每日访问量分析" class="headerlink" title="每日访问量分析"></a>每日访问量分析</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">count_by_month = Ebay_data.groupby([Ebay_data[<span class="string">&#x27;month&#x27;</span>],Ebay_data[<span class="string">&#x27;day&#x27;</span>]],as_index=<span class="literal">False</span>).count()[[<span class="string">&#x27;month&#x27;</span>,<span class="string">&#x27;day&#x27;</span>,<span class="string">&#x27;user_id&#x27;</span>]]</span><br><span class="line">count_by_month[<span class="string">&#x27;日期&#x27;</span>] = count_by_month[<span class="string">&#x27;month&#x27;</span>].astype(<span class="string">&#x27;str&#x27;</span>)+<span class="string">&#x27;月&#x27;</span>+count_by_month[<span class="string">&#x27;day&#x27;</span>].astype(<span class="string">&#x27;str&#x27;</span>) + <span class="string">&#x27;日&#x27;</span></span><br><span class="line"><span class="comment"># count_by_month.rename(&#123;&#x27;month&#x27;:&#x27;月份&#x27;,&#x27;user_id&#x27;:&#x27;数量&#x27;&#125;)</span></span><br><span class="line"></span><br><span class="line">bar = Bar(init_opts=opts.InitOpts(</span><br><span class="line">    width= <span class="string">&quot;1600px&quot;</span>,</span><br><span class="line">    height= <span class="string">&quot;400px&quot;</span>,</span><br><span class="line">    bg_color=<span class="string">&#x27;white&#x27;</span>,</span><br><span class="line">    theme=ThemeType.LIGHT))</span><br><span class="line">x = count_by_month[<span class="string">&#x27;日期&#x27;</span>].values.tolist()</span><br><span class="line">y = count_by_month[<span class="string">&#x27;user_id&#x27;</span>].values.tolist()</span><br><span class="line">bar.add_xaxis(x).add_yaxis(</span><br><span class="line">    <span class="string">&#x27;浏览量&#x27;</span>,y,bar_width=<span class="string">&#x27;11px&#x27;</span></span><br><span class="line">    ).set_global_opts(</span><br><span class="line">        xaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(rotate=-<span class="number">90</span>)),</span><br><span class="line">        title_opts=opts.TitleOpts(<span class="literal">True</span>,<span class="string">&#x27;用户访问日期情况&#x27;</span>),</span><br><span class="line">        toolbox_opts=opts.ToolboxOpts(<span class="literal">True</span>)</span><br><span class="line">        ).set_series_opts(</span><br><span class="line">            markline_opts=opts.MarkLineOpts(<span class="literal">True</span>,data=[opts.MarkLineItem(<span class="string">&#x27;平均值&#x27;</span>,<span class="string">&#x27;average&#x27;</span>)]),</span><br><span class="line">            label_opts=opts.LabelOpts(is_show=<span class="literal">True</span>,position=<span class="string">&#x27;top&#x27;</span>,font_size=<span class="number">10</span>))</span><br><span class="line">bar.load_javascript()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">bar.render_notebook()</span><br></pre></td></tr></table></figure>
+<p><img src="https://z1.ax1x.com/2023/09/26/pPHtdU0.png" alt="pPHtdU0.png"></p>
+<p><font color=#FFA500>近一个月用户浏览量较为平均，<strong>12月12日</strong>流量较高，由双十二活动获得的流量</font></p>
+<h3 id="用户浏览时间分析"><a href="#用户浏览时间分析" class="headerlink" title="用户浏览时间分析"></a>用户浏览时间分析</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">count_by_hour = Ebay_data.groupby(Ebay_data[<span class="string">&#x27;hour&#x27;</span>],as_index=<span class="literal">False</span>).count()[[<span class="string">&#x27;hour&#x27;</span>,<span class="string">&#x27;user_id&#x27;</span>]]</span><br><span class="line">bar = Line(init_opts=opts.InitOpts(</span><br><span class="line">    width= <span class="string">&quot;1600px&quot;</span>,</span><br><span class="line">    height= <span class="string">&quot;400px&quot;</span>,</span><br><span class="line">    bg_color=<span class="string">&#x27;white&#x27;</span>,</span><br><span class="line">    theme=ThemeType.LIGHT))</span><br><span class="line">x = count_by_hour[<span class="string">&#x27;hour&#x27;</span>].values.tolist()</span><br><span class="line">y = count_by_hour[<span class="string">&#x27;user_id&#x27;</span>].values.tolist()</span><br><span class="line">bar.add_xaxis(x).add_yaxis(</span><br><span class="line">    <span class="string">&#x27;浏览量&#x27;</span>,y</span><br><span class="line">    ).set_global_opts(</span><br><span class="line">        title_opts=opts.TitleOpts(<span class="literal">True</span>,<span class="string">&#x27;用户访问时间分析&#x27;</span>),</span><br><span class="line">        toolbox_opts=opts.ToolboxOpts(<span class="literal">True</span>)</span><br><span class="line">        ).set_series_opts(</span><br><span class="line">            label_opts=opts.LabelOpts(is_show=<span class="literal">True</span>,position=<span class="string">&#x27;top&#x27;</span>))</span><br><span class="line"></span><br><span class="line">bar.load_javascript()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">bar.render_notebook()</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="https://z1.ax1x.com/2023/09/26/pPHtD8U.png" alt="pPHtD8U.png"></p>
+<p><font color=#FFA500>用户浏览高峰期集中在<strong>18-23点</strong>，<strong>1-9点</strong>流量较低，其他时间较平均</font></p>
+<h3 id="用户购买时间段分析"><a href="#用户购买时间段分析" class="headerlink" title="用户购买时间段分析"></a>用户购买时间段分析</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">count_by_buyhour = Ebay_data[Ebay_data[<span class="string">&#x27;behavior_type&#x27;</span>]==<span class="number">4</span>][<span class="string">&#x27;user_id&#x27;</span>].groupby(Ebay_data[<span class="string">&#x27;hour&#x27;</span>]).count().reset_index()</span><br><span class="line">bar = Line(init_opts=opts.InitOpts(</span><br><span class="line">    width= <span class="string">&quot;1600px&quot;</span>,</span><br><span class="line">    height= <span class="string">&quot;400px&quot;</span>,</span><br><span class="line">    bg_color=<span class="string">&#x27;white&#x27;</span>,</span><br><span class="line">    theme=ThemeType.LIGHT))</span><br><span class="line">x = count_by_buyhour[<span class="string">&#x27;hour&#x27;</span>].values.tolist()</span><br><span class="line">y = count_by_buyhour[<span class="string">&#x27;user_id&#x27;</span>].values.tolist()</span><br><span class="line">bar.add_xaxis(x).add_yaxis(</span><br><span class="line">    <span class="string">&#x27;浏览量&#x27;</span>,y</span><br><span class="line">    ).set_global_opts(</span><br><span class="line">        title_opts=opts.TitleOpts(<span class="literal">True</span>,<span class="string">&#x27;用户购买时间分析&#x27;</span>),</span><br><span class="line">        toolbox_opts=opts.ToolboxOpts(<span class="literal">True</span>)</span><br><span class="line">        ).set_series_opts(</span><br><span class="line">            label_opts=opts.LabelOpts(is_show=<span class="literal">True</span>,position=<span class="string">&#x27;top&#x27;</span>))</span><br><span class="line"></span><br><span class="line">bar.load_javascript()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">bar.render_notebook()</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="https://z1.ax1x.com/2023/09/26/pPHtr2F.png" alt="pPHtr2F.png"></p>
+<p><font color=#FFA500>用户购买大多集中在白天</font></p>
+<h3 id="次日留存率"><a href="#次日留存率" class="headerlink" title="次日留存率"></a>次日留存率</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 获取数据 由于数据量太大 随机取1万行进行操作</span></span><br><span class="line">data = Ebay_data[[<span class="string">&#x27;user_id&#x27;</span>,<span class="string">&#x27;date&#x27;</span>]]</span><br><span class="line">data = data.sample(<span class="number">10000</span>)</span><br><span class="line"><span class="comment"># 两表左连接 去重 得到两个时间差</span></span><br><span class="line">data2 = data.merge(data,how=<span class="string">&#x27;left&#x27;</span>,on=<span class="string">&#x27;user_id&#x27;</span>)</span><br><span class="line">data2 = data2[(data2[<span class="string">&#x27;date_x&#x27;</span>]!=data2[<span class="string">&#x27;date_y&#x27;</span>])]</span><br><span class="line"></span><br><span class="line">data2[<span class="string">&#x27;diff&#x27;</span>] = data2[<span class="string">&#x27;date_x&#x27;</span>] - data2[<span class="string">&#x27;date_y&#x27;</span>]</span><br><span class="line"></span><br><span class="line">data2[<span class="string">&#x27;diff&#x27;</span>] = data2[<span class="string">&#x27;diff&#x27;</span>].astype(<span class="string">&#x27;str&#x27;</span>).apply(<span class="keyword">lambda</span> x:x.split()[<span class="number">0</span>]).astype(<span class="string">&#x27;int64&#x27;</span>)</span><br><span class="line"><span class="comment"># 取时间差为负值</span></span><br><span class="line">data3 = data2[data2[<span class="string">&#x27;diff&#x27;</span>]&lt;<span class="number">0</span>]</span><br><span class="line">data3[<span class="string">&#x27;diff2&#x27;</span>] = data3[<span class="string">&#x27;diff&#x27;</span>].apply(<span class="keyword">lambda</span> x:<span class="number">1</span> <span class="keyword">if</span> x == -<span class="number">1</span> <span class="keyword">else</span> <span class="number">0</span>) </span><br><span class="line"><span class="comment"># 按时间和时间差分类计数</span></span><br><span class="line">data4 = data3[<span class="string">&#x27;user_id&#x27;</span>].groupby([data3[<span class="string">&#x27;date_x&#x27;</span>],data3[<span class="string">&#x27;diff2&#x27;</span>]]).count().reset_index()</span><br><span class="line"><span class="comment"># 按照时间差类型分成两个表</span></span><br><span class="line">data5 = data4[data4[<span class="string">&#x27;diff2&#x27;</span>]==<span class="number">1</span>]</span><br><span class="line">data6 = data4[data4[<span class="string">&#x27;diff2&#x27;</span>]==<span class="number">0</span>]</span><br><span class="line"><span class="comment"># 外链接合并两表</span></span><br><span class="line">data7 = data5.merge(data6,how=<span class="string">&#x27;outer&#x27;</span>,on=<span class="string">&#x27;date_x&#x27;</span>)</span><br><span class="line">data7.fillna(<span class="number">0</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">data7[<span class="string">&#x27;次日留存率&#x27;</span>] = <span class="built_in">round</span>(data7[<span class="string">&#x27;user_id_x&#x27;</span>]/(data7[<span class="string">&#x27;user_id_x&#x27;</span>]+data7[<span class="string">&#x27;user_id_y&#x27;</span>])*<span class="number">100</span>,<span class="number">2</span>)</span><br><span class="line">data7=data7[[<span class="string">&#x27;date_x&#x27;</span>,<span class="string">&#x27;次日留存率&#x27;</span>]]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">bar = Bar(init_opts=opts.InitOpts(</span><br><span class="line">    width= <span class="string">&quot;1600px&quot;</span>,</span><br><span class="line">    height= <span class="string">&quot;400px&quot;</span>,</span><br><span class="line">    bg_color=<span class="string">&#x27;white&#x27;</span>,</span><br><span class="line">    theme=ThemeType.LIGHT))</span><br><span class="line">x = data7[<span class="string">&#x27;date_x&#x27;</span>].values.tolist()</span><br><span class="line">y = data7[<span class="string">&#x27;次日留存率&#x27;</span>].values.tolist()</span><br><span class="line">bar.add_xaxis(x).add_yaxis(</span><br><span class="line">    <span class="string">&#x27;留存率&#x27;</span>,y,bar_width=<span class="string">&#x27;11px&#x27;</span></span><br><span class="line">    ).set_global_opts(</span><br><span class="line">        xaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(rotate=-<span class="number">45</span>)),</span><br><span class="line">        title_opts=opts.TitleOpts(<span class="literal">True</span>,<span class="string">&#x27;活跃用户次日留存率&#x27;</span>),</span><br><span class="line">        toolbox_opts=opts.ToolboxOpts(<span class="literal">True</span>)</span><br><span class="line">        ).set_series_opts(</span><br><span class="line">            label_opts=opts.LabelOpts(is_show=<span class="literal">True</span>,position=<span class="string">&#x27;top&#x27;</span>,font_size=<span class="number">10</span>))</span><br><span class="line">bar.load_javascript()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">bar.render_notebook()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://z1.ax1x.com/2023/09/26/pPHtBCT.png" alt="pPHtBCT.png"></p>
+<h3 id="用户浏览商品类别分析"><a href="#用户浏览商品类别分析" class="headerlink" title="用户浏览商品类别分析"></a>用户浏览商品类别分析</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 分类汇总</span></span><br><span class="line">count_by_class = Ebay_data[Ebay_data[<span class="string">&#x27;behavior_type&#x27;</span>]!=<span class="number">4</span>][<span class="string">&#x27;user_id&#x27;</span>].groupby(Ebay_data[<span class="string">&#x27;item_category&#x27;</span>]).count().reset_index()</span><br><span class="line">count_by_class_top10 = count_by_class.sort_values(<span class="string">&#x27;user_id&#x27;</span>,ascending=<span class="literal">False</span>)[:<span class="number">10</span>]</span><br><span class="line">values = count_by_class_top10[<span class="string">&#x27;user_id&#x27;</span>].values.tolist()</span><br><span class="line">labels = count_by_class_top10[<span class="string">&#x27;item_category&#x27;</span>].astype(<span class="string">&#x27;str&#x27;</span>).values.tolist()</span><br><span class="line">pie = Pie(opts.InitOpts(</span><br><span class="line">    theme=ThemeType.LIGHT,</span><br><span class="line">    bg_color=<span class="string">&#x27;white&#x27;</span></span><br><span class="line">)).add(<span class="string">&#x27;&#x27;</span>,[<span class="built_in">list</span>(z) <span class="keyword">for</span> z <span class="keyword">in</span> <span class="built_in">zip</span>(labels,values)]).set_global_opts(</span><br><span class="line">    title_opts=opts.TitleOpts(<span class="literal">True</span>,<span class="string">&#x27;用户浏览商品类别Top10&#x27;</span>),</span><br><span class="line">    legend_opts=opts.LegendOpts(pos_top=<span class="string">&#x27;middle&#x27;</span>,pos_right=<span class="number">16</span>,orient=<span class="string">&#x27;vertical&#x27;</span>),</span><br><span class="line">    toolbox_opts=opts.ToolboxOpts(<span class="literal">True</span>)</span><br><span class="line">).set_series_opts(</span><br><span class="line">    label_opts=opts.LabelOpts(formatter=<span class="string">&quot;[&#123;b&#125;]：&#123;c&#125; \n 占比：&#123;d&#125;%&quot;</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">pie.load_javascript()</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pie.render_notebook()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://z1.ax1x.com/2023/09/26/pPHt6KJ.png" alt="pPHt6KJ.png"></p>
+<h3 id="用户购买类别分析"><a href="#用户购买类别分析" class="headerlink" title="用户购买类别分析"></a>用户购买类别分析</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 分类汇总</span></span><br><span class="line"></span><br><span class="line">count_by_buyclass = Ebay_data[Ebay_data[<span class="string">&#x27;behavior_type&#x27;</span>] == <span class="number">4</span>][<span class="string">&#x27;user_id&#x27;</span>].groupby(Ebay_data[<span class="string">&#x27;item_category&#x27;</span>]).count().reset_index()</span><br><span class="line">count_by_buyclass_top10 = count_by_buyclass.sort_values(<span class="string">&#x27;user_id&#x27;</span>,ascending=<span class="literal">False</span>)[:<span class="number">10</span>]</span><br><span class="line">values = count_by_buyclass_top10[<span class="string">&#x27;user_id&#x27;</span>].values.tolist()</span><br><span class="line">labels = count_by_buyclass_top10[<span class="string">&#x27;item_category&#x27;</span>].astype(<span class="string">&#x27;str&#x27;</span>).values.tolist()</span><br><span class="line">pie = Pie(opts.InitOpts(</span><br><span class="line">    theme=ThemeType.LIGHT,</span><br><span class="line">    bg_color=<span class="string">&#x27;white&#x27;</span></span><br><span class="line">)).add(<span class="string">&#x27;&#x27;</span>,[<span class="built_in">list</span>(z) <span class="keyword">for</span> z <span class="keyword">in</span> <span class="built_in">zip</span>(labels,values)]).set_global_opts(</span><br><span class="line">    title_opts=opts.TitleOpts(<span class="literal">True</span>,<span class="string">&#x27;用户购买商品类别Top10&#x27;</span>),</span><br><span class="line">    legend_opts=opts.LegendOpts(pos_top=<span class="string">&#x27;middle&#x27;</span>,pos_right=<span class="number">16</span>,orient=<span class="string">&#x27;vertical&#x27;</span>),</span><br><span class="line">    toolbox_opts=opts.ToolboxOpts(<span class="literal">True</span>)</span><br><span class="line">).set_series_opts(</span><br><span class="line">    label_opts=opts.LabelOpts(formatter=<span class="string">&quot;[&#123;b&#125;]：&#123;c&#125; \n 占比：&#123;d&#125;%&quot;</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pie.load_javascript()</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pie.render_notebook()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://z1.ax1x.com/2023/09/26/pPHtw5V.png" alt="pPHtw5V.png"></p>
+<p><font color=#FFA500>用户浏览[1863]类别较多，但购买占比较高的分类却是[6344]，可合理调整推广，减少曝光量较大但购买量不及预期的推广成本</font></p>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Otter</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/09/26/%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA%E5%88%86%E6%9E%90/">http://example.com/2023/09/26/用户行为分析/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Otter's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/python/">python</a><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/">数据分析</a></div><div class="post_share"><div class="social-share" data-image="/img/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90BJ.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/09/19/%E7%9B%B8%E5%86%8C/" title="相册"><img class="cover" src="https://z1.ax1x.com/2023/09/21/pPIjPE9.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">相册</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/09/08/%E5%9F%BA%E4%BA%8E%E5%A4%A9%E6%B1%A0%E6%AF%8D%E5%A9%B4%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" title="基于天池母婴数据分析"><img class="cover" src="/img/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90BJ.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-08</div><div class="title">基于天池母婴数据分析</div></div></a></div><div><a href="/2023/09/10/matplotlib%E4%BD%BF%E7%94%A8%E4%B8%AD%E7%9A%84%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" title="matplotlib使用中的问题汇总"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-10</div><div class="title">matplotlib使用中的问题汇总</div></div></a></div><div><a href="/2023/09/08/python%E5%AD%A6%E4%B9%A0%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%B0%8F%E9%97%AE%E9%A2%98/" title="python学习中遇到的小问题"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-08</div><div class="title">python学习中遇到的小问题</div></div></a></div><div><a href="/2023/09/12/%E7%B2%BE%E7%9B%8A%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" title="精益数据分析笔记"><img class="cover" src="/img/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90BJ.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-12</div><div class="title">精益数据分析笔记</div></div></a></div><div><a href="/2023/09/14/%E7%B2%BE%E7%9B%8A%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%EF%BC%88%E4%BA%8C%EF%BC%89/" title="精益数据分析（二）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-09-14</div><div class="title">精益数据分析（二）</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://s1.ax1x.com/2023/09/08/pP6mNP1.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Otter</div><div class="author-info__description">你我终会沦为尘埃漂流<br>等待花季烟雨稠</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Enhydra-lutris-tl"><i class="fab fa-github"></i><span>Github</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%8F%E8%BF%B0"><span class="toc-text">描述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E6%AE%B5%E8%AF%B4%E6%98%8E"><span class="toc-text">字段说明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%9D%A5%E6%BA%90"><span class="toc-text">数据来源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%8F%96%E5%B9%B6%E6%B8%85%E6%B4%97"><span class="toc-text">数据读取并清洗</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E7%9B%B8%E5%85%B3%E5%BA%93"><span class="toc-text">导入相关库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE"><span class="toc-text">读取数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%85%E6%B4%97%E6%95%B0%E6%8D%AE"><span class="toc-text">清洗数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA%E5%88%86%E6%9E%90"><span class="toc-text">用户行为分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA%E6%BC%8F%E6%96%97%E5%9B%BE"><span class="toc-text">用户行为漏斗图</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AF%8F%E6%97%A5%E8%AE%BF%E9%97%AE%E9%87%8F%E5%88%86%E6%9E%90"><span class="toc-text">每日访问量分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E6%B5%8F%E8%A7%88%E6%97%B6%E9%97%B4%E5%88%86%E6%9E%90"><span class="toc-text">用户浏览时间分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E8%B4%AD%E4%B9%B0%E6%97%B6%E9%97%B4%E6%AE%B5%E5%88%86%E6%9E%90"><span class="toc-text">用户购买时间段分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AC%A1%E6%97%A5%E7%95%99%E5%AD%98%E7%8E%87"><span class="toc-text">次日留存率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E6%B5%8F%E8%A7%88%E5%95%86%E5%93%81%E7%B1%BB%E5%88%AB%E5%88%86%E6%9E%90"><span class="toc-text">用户浏览商品类别分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E8%B4%AD%E4%B9%B0%E7%B1%BB%E5%88%AB%E5%88%86%E6%9E%90"><span class="toc-text">用户购买类别分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-text"></span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/09/26/%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA%E5%88%86%E6%9E%90/" title="用户行为分析"><img src="/img/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90BJ.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="用户行为分析"/></a><div class="content"><a class="title" href="/2023/09/26/%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA%E5%88%86%E6%9E%90/" title="用户行为分析">用户行为分析</a><time datetime="2023-09-26T05:52:32.000Z" title="发表于 2023-09-26 13:52:32">2023-09-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/09/19/%E7%9B%B8%E5%86%8C/" title="相册"><img src="https://z1.ax1x.com/2023/09/21/pPIjPE9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="相册"/></a><div class="content"><a class="title" href="/2023/09/19/%E7%9B%B8%E5%86%8C/" title="相册">相册</a><time datetime="2023-09-19T07:06:00.000Z" title="发表于 2023-09-19 15:06:00">2023-09-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/09/14/%E7%B2%BE%E7%9B%8A%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%EF%BC%88%E4%BA%8C%EF%BC%89/" title="精益数据分析（二）">精益数据分析（二）</a><time datetime="2023-09-14T13:52:32.000Z" title="发表于 2023-09-14 21:52:32">2023-09-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/09/12/%E7%B2%BE%E7%9B%8A%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" title="精益数据分析笔记"><img src="/img/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90BJ.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="精益数据分析笔记"/></a><div class="content"><a class="title" href="/2023/09/12/%E7%B2%BE%E7%9B%8A%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" title="精益数据分析笔记">精益数据分析笔记</a><time datetime="2023-09-12T15:06:32.000Z" title="发表于 2023-09-12 23:06:32">2023-09-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/09/10/matplotlib%E4%BD%BF%E7%94%A8%E4%B8%AD%E7%9A%84%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" title="matplotlib使用中的问题汇总">matplotlib使用中的问题汇总</a><time datetime="2023-09-10T06:02:41.000Z" title="发表于 2023-09-10 14:02:41">2023-09-10</time></div></div></div></div></div></div></main><footer id="footer" style="background: rgba(255,255,255,0)"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Otter</div><div class="footer_custom_text"><div id="runtime"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"></div><script src="/js/jquery.js"></script><script src="/js/footer.js"></script><script src="/js/time.js"></script><script async src="/js/diytitle.js"></script><script id="canvas_nest" defer="defer" color="223,243,243" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2023/09/26/用户行为分析/" alt=""><img width="48" height="48" src="/img/数据分析BJ.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-09-26</span><a class="blog-slider__title" href="2023/09/26/用户行为分析/" alt="">用户行为分析</a><div class="blog-slider__text">本次可视化分析的目的是针对脱敏过的用户行为数,使用Python、Numpy、Pandas和Matplotlib工具完成可视化分析</div><a class="blog-slider__button" href="2023/09/26/用户行为分析/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2023/09/08/基于天池母婴数据分析/" alt=""><img width="48" height="48" src="/img/数据分析BJ.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-09-08</span><a class="blog-slider__title" href="2023/09/08/基于天池母婴数据分析/" alt="">基于天池母婴数据分析</a><div class="blog-slider__text">本次分析数据来源于淘宝母婴购物行为数据集,基于python的pandas、matplotlib进行数据分析</div><a class="blog-slider__button" href="2023/09/08/基于天池母婴数据分析/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2023/09/12/精益数据分析/" alt=""><img width="48" height="48" src="/img/数据分析BJ.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-09-12</span><a class="blog-slider__title" href="2023/09/12/精益数据分析/" alt="">精益数据分析笔记</a><div class="blog-slider__text">基于书籍《精益数据分析》，阅读过程中的笔记。</div><a class="blog-slider__button" href="2023/09/12/精益数据分析/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = '/';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><!-- hexo injector body_end end --></body></html>
